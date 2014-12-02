@@ -22,46 +22,10 @@ var printInventory = function(input){
         item_zhengchang(inputs[i]);
     }
   }
-
-var expectText = '***<没钱赚商店>购物清单***\n';
-  /*小计*/
-  for(var i = 0; i < item_linshi.length; i++){
-    item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num;
-    for(var j = 0; j < promitions[0].barcodes.length; j++){
-      if((item_linshi[i].barcode === promitions[0].barcodes[j]) && (item_linshi[i].num > 2)){
-        item_linshi[i].prices -= item_linshi[i].price;
-      }
-    }
-  }
-
-  for(var i = 0; i < item_linshi.length; i++){
-    expectText += '名称：'+item_linshi[i].name + '，数量：' + item_linshi[i].num + item_linshi[i].unit + '，单价：' + item_linshi[i].price.toFixed(2) +'(元)，小计：'
-    + item_linshi[i].prices.toFixed(2) + '(元)\n';
-  }
-  expectText += '----------------------\n' + '挥泪赠送商品：\n';
-  for(var i = 0; i < item_linshi.length; i++){
-    if(item_linshi[i].prices != item_linshi[i].price * item_linshi[i].num)
-      expectText += '名称：' + item_linshi[i].name + '，数量：1' + item_linshi[i].unit + '\n';
-  }
-  expectText += '----------------------\n';
-  var allPrices = 0;
-  for(var i = 0; i < item_linshi.length; i++){
-    allPrices += item_linshi[i].prices;
-  }
-  expectText += '总计：' + allPrices.toFixed(2) + '(元)\n';
-  var allPrice_lin = 0;
-  for(var i = 0; i < item_linshi.length; i++){
-    allPrice_lin += item_linshi[i].price * item_linshi[i].num;
-  }
-  expectText += '节省：' + (allPrice_lin - allPrices).toFixed(2) + '(元)\n' + '**********************';
-
-  console.log(expectText);
+  console.log(item_push());
 
 }
-
-var expectText = '***<没钱赚商店>购物清单***\n';
-
-/*特殊*/
+/*特殊条码处理法*/
 var item_teshu = function(item){
    for(var i = 0; i < item_linshi.length; i++){
      if(item.split("-")[0] === item_linshi[i].barcode){
@@ -82,7 +46,7 @@ var item_teshu = function(item){
     }
   }
 }
-/*正常*/
+/*正常条码处理法*/
 var item_zhengchang = function(item){
   for(var i = 0; i < item_linshi.length; i++){
     if(item === item_linshi[i].barcode){
@@ -102,5 +66,40 @@ var item_zhengchang = function(item){
       return;
     }
   }
+}
+/*输出最终清单*/
+var item_push = function(){
+  var expectText = '***<没钱赚商店>购物清单***\n';
+  /*小计*/
+  for(var i = 0; i < item_linshi.length; i++){
+    item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num;
+    for(var j = 0; j < promitions[0].barcodes.length; j++){
+      if((item_linshi[i].barcode === promitions[0].barcodes[j]) && (item_linshi[i].num > 2)){
+        item_linshi[i].prices -= item_linshi[i].price;
+      }
+    }
+  }
 
+  for(var i = 0; i < item_linshi.length; i++){
+    expectText += '名称：'+item_linshi[i].name + '，数量：' + item_linshi[i].num + item_linshi[i].unit +
+    '，单价：' + item_linshi[i].price.toFixed(2) +'(元)，小计：'
+    + item_linshi[i].prices.toFixed(2) + '(元)\n';
+  }
+  expectText += '----------------------\n' + '挥泪赠送商品：\n';
+  for(var i = 0; i < item_linshi.length; i++){
+    if(item_linshi[i].prices != item_linshi[i].price * item_linshi[i].num)
+      expectText += '名称：' + item_linshi[i].name + '，数量：1' + item_linshi[i].unit + '\n';
+    }
+    expectText += '----------------------\n';
+    var allPrices = 0;
+    for(var i = 0; i < item_linshi.length; i++){
+      allPrices += item_linshi[i].prices;
+    }
+    expectText += '总计：' + allPrices.toFixed(2) + '(元)\n';
+    var allPrice_lin = 0;
+    for(var i = 0; i < item_linshi.length; i++){
+      allPrice_lin += item_linshi[i].price * item_linshi[i].num;
+    }
+    expectText += '节省：' + (allPrice_lin - allPrices).toFixed(2) + '(元)\n' + '**********************';
+    return expectText;
 }
