@@ -1,19 +1,8 @@
 //TODO: Please write code in this file.
-var inputs = [
-'ITEM000001',
-'ITEM000001',
-'ITEM000001',
-'ITEM000001',
-'ITEM000001',
-'ITEM000003-2',
-'ITEM000005',
-'ITEM000005',
-'ITEM000005'
-];
 var item_linshi = [];
 var allItems = new loadAllItems();
 var promitions = new loadPromotions();
-var printInventory = function(input){
+var printInventory = function(inputs){
   for(var i = 0; i < inputs.length; i++){
       if(inputs[i].split('-').length === 2){
         item_teshu(inputs[i]);
@@ -75,7 +64,7 @@ var item_push = function(){
     item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num;
     for(var j = 0; j < promitions[0].barcodes.length; j++){
       if((item_linshi[i].barcode === promitions[0].barcodes[j]) && (item_linshi[i].num > 2)){
-        item_linshi[i].prices -= item_linshi[i].price;
+        item_linshi[i].prices -= item_linshi[i].price*Math.floor(item_linshi[i].num/3);
       }
     }
   }
@@ -88,7 +77,7 @@ var item_push = function(){
   expectText += '----------------------\n' + '挥泪赠送商品：\n';
   for(var i = 0; i < item_linshi.length; i++){
     if(item_linshi[i].prices != item_linshi[i].price * item_linshi[i].num)
-      expectText += '名称：' + item_linshi[i].name + '，数量：1' + item_linshi[i].unit + '\n';
+      expectText += '名称：' + item_linshi[i].name + '，数量：' + Math.floor(item_linshi[i].num/3) + item_linshi[i].unit + '\n';
     }
     expectText += '----------------------\n';
     var allPrices = 0;
