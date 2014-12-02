@@ -15,10 +15,10 @@ var allItems = new loadAllItems();
 var promitions = new loadPromotions();
 var printInventory = function(input){
   for(var i = 0; i < inputs.length; i++){
-      if(inputs[i].split("-")){
+      if(inputs[i].split('-').length === 2){
         item_teshu(inputs[i]);
       }
-      else{
+      else if(inputs[i].split('-').length === 1){
         item_zhengchang(inputs[i]);
     }
   }
