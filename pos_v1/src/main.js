@@ -35,8 +35,8 @@ var expectText = '***<没钱赚商店>购物清单***\n';
   }
 
   for(var i = 0; i < item_linshi.length; i++){
-    expectText += '名称：'+item_linshi[i].name + '，数量：' + item_linshi[i].num + item_linshi[i].unit + '，单价：' + item_linshi[i].price +'(元)，小计：'
-    + item_linshi[i].prices + '(元)\n';
+    expectText += '名称：'+item_linshi[i].name + '，数量：' + item_linshi[i].num + item_linshi[i].unit + '，单价：' + item_linshi[i].price.toFixed(2) +'(元)，小计：'
+    + item_linshi[i].prices.toFixed(2) + '(元)\n';
   }
   expectText += '----------------------\n' + '挥泪赠送商品：\n';
   for(var i = 0; i < item_linshi.length; i++){
@@ -48,12 +48,12 @@ var expectText = '***<没钱赚商店>购物清单***\n';
   for(var i = 0; i < item_linshi.length; i++){
     allPrices += item_linshi[i].prices;
   }
-  expectText += '总计：' + allPrices + '(元)\n';
+  expectText += '总计：' + allPrices.toFixed(2) + '(元)\n';
   var allPrice_lin = 0;
   for(var i = 0; i < item_linshi.length; i++){
     allPrice_lin += item_linshi[i].price * item_linshi[i].num;
   }
-  expectText += '节省：' + (allPrice_lin - allPrices) + '(元)\n' + '**********************';
+  expectText += '节省：' + (allPrice_lin - allPrices).toFixed(2) + '(元)\n' + '**********************';
 
   console.log(expectText);
 
