@@ -26,13 +26,12 @@ var printInventory = function(input){
 var expectText = '***<没钱赚商店>购物清单***\n';
   /*小计*/
   for(var i = 0; i < item_linshi.length; i++){
+    item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num;
     for(var j = 0; j < promitions[0].barcodes.length; j++){
-      if((item_linshi[i].barcode === promitions[0].barcodes[j]) && (item_linshi[i].num >= 2)){
-        item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num - item_linshi[i].price;
-        break;
+      if((item_linshi[i].barcode === promitions[0].barcodes[j]) && (item_linshi[i].num > 2)){
+        item_linshi[i].prices -= item_linshi[i].price;
       }
     }
-    item_linshi[i].prices = item_linshi[i].price * item_linshi[i].num;
   }
 
   for(var i = 0; i < item_linshi.length; i++){
@@ -54,7 +53,7 @@ var expectText = '***<没钱赚商店>购物清单***\n';
   for(var i = 0; i < item_linshi.length; i++){
     allPrice_lin += item_linshi[i].price * item_linshi[i].num;
   }
-  expectText += '节省：' + allPrice_lin + '(元)\n' + '**********************';
+  expectText += '节省：' + (allPrice_lin - allPrices) + '(元)\n' + '**********************';
 
   console.log(expectText);
 
