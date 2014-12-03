@@ -85,11 +85,11 @@ function getCartItemsText(cartItems) {
   for(var i = 0; i < cartItems.length; i++) {
 
     var cartItem = cartItems[i];
-    var cartItemsPrice = getCartItemsPrice(cartItem);
+    var cartItemsAmount = getCartItemsAmount(cartItem);
         cartItemsText += '名称：' + cartItem.item.name +
                          '，数量：' + cartItem.count + cartItem.item.unit +
                          '，单价：' + cartItem.item.price.toFixed(2) +
-                         '(元)，小计：' + cartItemsPrice.toFixed(2) + '(元)\n';
+                         '(元)，小计：' + cartItemsAmount.toFixed(2) + '(元)\n';
 
   }
 
@@ -101,11 +101,13 @@ function getPromotionText(cartItems) {
 
   for(var i = 0 ; i < cartItems.length; i++) {
 
-    var cartItemsPrice = getCartItemsPrice(cartItems[i]);
-    if (cartItemsPrice != cartItems[i].item.price * cartItems[i].count) {
-      promotionText += '名称：' + cartItems[i].item.name + '，数量：' +
-      Math.floor(cartItems[i].count/3) + cartItems[i].item.unit + '\n';
+    var cartItem = cartItems[i];
+    var cartItemsAmount = getCartItemsAmount(cartItem);
+    if (cartItemsAmount != cartItem.item.price * cartItem.count) {
+      promotionText += '名称：' + cartItem.item.name + '，数量：' +
+      Math.floor(cartItem.count/3) + cartItem.item.unit + '\n';
     }
+
   }
 
   return promotionText;
@@ -113,27 +115,27 @@ function getPromotionText(cartItems) {
 
 function getSummaryText(cartItems) {
   var summaryText = '';
-  var cartItemsTotalPrice = getCartItemsTotalPrice(cartItems);
-  var cartItemsSavePrice = getCartItemsSavePrice(cartItems);
-      summaryText += '总计：' + cartItemsTotalPrice.toFixed(2) + '(元)\n' +
-                     '节省：' + cartItemsSavePrice.toFixed(2) + '(元)\n';
+  var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
+  var cartItemsSaveAmount = getCartItemsSaveAmount(cartItems);
+      summaryText += '总计：' + cartItemsTotalAmount.toFixed(2) + '(元)\n' +
+                     '节省：' + cartItemsSaveAmount.toFixed(2) + '(元)\n';
   return summaryText;
 }
 
-function getCartItemsPrice(cartItem) {
+function getCartItemsAmount(cartItem) {
   var promotions = loadPromotions();
   var promotion = findPromotion(promotions,'BUY_TWO_GET_ONE_FREE');
-  var cartItemsPrice = cartItem.item.price * cartItem.count;
+  var cartItemsAmount = cartItem.item.price * cartItem.count;
 
   for(var i = 0; i < promotion.barcodes.length; i++) {
 
     if (cartItem.item.barcode === promotion.barcodes[i]) {
-      cartItemsPrice -= cartItem.item.price * Math.floor(cartItem.count/3);
+      cartItemsAmount -= cartItem.item.price * Math.floor(cartItem.count/3);
     }
-    
+
   }
 
-  return cartItemsPrice;
+  return cartItemsAmount;
 }
 
 function findPromotion(promotions,type) {
@@ -150,26 +152,26 @@ function findPromotion(promotions,type) {
   return promotion;
 }
 
-function getCartItemsTotalPrice(cartItems) {
-  var cartItemsTotalPrice = 0;
+function getCartItemsTotalAmount(cartItems) {
+  var cartItemsTotalAmount = 0;
 
   for(var i = 0 ; i < cartItems.length; i++) {
-    var cartItemsPrice = getCartItemsPrice(cartItems[i]);
-    cartItemsTotalPrice += cartItemsPrice;
+    var cartItemsAmount = getCartItemsAmount(cartItems[i]);
+    cartItemsTotalAmount += cartItemsAmount;
   }
 
-  return cartItemsTotalPrice;
+  return cartItemsTotalAmount;
 }
 
-function getCartItemsSavePrice(cartItems) {
-  var cartItemsSavePrice = 0;
-  var cartItemsNoSaveTotalPrice = 0;
-  var cartItemsTotalPrice = getCartItemsTotalPrice(cartItems);
+function getCartItemsSaveAmount(cartItems) {
+  var cartItemsSaveAmount = 0;
+  var cartItemsNoSaveTotalAmount = 0;
+  var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
 
   for(var i = 0 ; i < cartItems.length; i++) {
-    cartItemsNoSaveTotalPrice += cartItems[i].item.price * cartItems[i].count;
+    cartItemsNoSaveTotalAmount += cartItems[i].item.price * cartItems[i].count;
   }
 
-  cartItemsSavePrice = cartItemsNoSaveTotalPrice - cartItemsTotalPrice;
-  return cartItemsSavePrice;
+  cartItemsSaveAmount = cartItemsNoSaveTotalAmount - cartItemsTotalAmount;
+  return cartItemsSaveAmount;
 }
