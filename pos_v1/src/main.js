@@ -8,9 +8,9 @@ function getCartItems(tags) {
   var cartItems = [];
   var items = loadAllItems();
 
-  for(var i = 0; i < tags.length; i++) {
+  _.forEach(tags, function(tag){
 
-    var tagArray  = tags[i].split('-');
+    var tagArray  = tag.split('-');
     var barcode = tagArray[0];
     var count = 1;
 
@@ -18,8 +18,11 @@ function getCartItems(tags) {
       count = parseFloat(tagArray[1]);
     }
 
-    var item = findItem(items,barcode);
-    var cartItem = findCartItem(cartItems,barcode);
+    var item = _.find(items, {barcode: barcode});
+    //var cartItem = findCartItem(cartItems,barcode);
+    var cartItem = _.find(cartItems, function(cartItem){
+      return cartItem.item.barcode === barcode;
+    });
 
     if(cartItem) {
       cartItem.count += count;
@@ -27,7 +30,7 @@ function getCartItems(tags) {
       cartItems.push({item:item , count:count});
     }
 
-  }
+  });
 
   return cartItems;
 }
@@ -49,33 +52,18 @@ function getInventroyText(cartItems) {
   return inventoryText;
 }
 
-function findItem(items,barcode) {
-  var item;
-
-  for(var i = 0; i < items.length; i++) {
-
-    if(items[i].barcode === barcode){
-      item = items[i];
-      break;
-    }
-
-  }
-
-  return item;
-}
-
-function findCartItem(cartItems,barcode) {
-  var cartItem;
-
-  for(var i = 0; i < cartItems.length; i++) {
-    if(cartItems[i].item.barcode === barcode){
-      cartItem = cartItems[i];
-      break;
-    }
-  }
-
-  return cartItem;
-}
+// function findCartItem(cartItems,barcode) {
+//   var cartItem;
+//
+//   for(var i = 0; i < cartItems.length; i++) {
+//     if(cartItems[i].item.barcode === barcode){
+//       cartItem = cartItems[i];
+//       break;
+//     }
+//   }
+//
+//   return cartItem;
+// }
 
 function getCartItemsText(cartItems) {
   var cartItemsText = '';
@@ -95,14 +83,14 @@ function getCartItemsText(cartItems) {
 function getPromotionText(cartItems) {
   var promotionText = '';
 
-  for(var i = 0 ; i < cartItems.length; i++) {
-    var cartItem = cartItems[i];
+  _.forEach(cartItems,function(cartItem) {
+  //for(var i = 0 ; i < cartItems.length; i++) {
     var subTotal = getSubTotal(cartItem);
     if (subTotal != cartItem.item.price * cartItem.count) {
       promotionText += '名称：' + cartItem.item.name + '，数量：' +
       Math.floor(cartItem.count/3) + cartItem.item.unit + '\n';
     }
-  }
+  });
 
   return promotionText;
 }
@@ -118,7 +106,8 @@ function getSummaryText(cartItems) {
 
 function getSubTotal(cartItem) {
   var promotions = loadPromotions();
-  var promotion = findPromotion(promotions,'BUY_TWO_GET_ONE_FREE');
+  //var promotion = findPromotion(promotions,'BUY_TWO_GET_ONE_FREE');
+  var promotion = _.find(promotions,{type:'BUY_TWO_GET_ONE_FREE'});
   var subTotal = cartItem.item.price * cartItem.count;
 
   for(var i = 0; i < promotion.barcodes.length; i++) {
@@ -130,29 +119,28 @@ function getSubTotal(cartItem) {
   return subTotal;
 }
 
-function findPromotion(promotions,type) {
-  var promotion;
-
-  for(var i = 0; i < promotions.length; i++) {
-    if (promotions[i].type === type) {
-      promotion = promotions[i];
-    }
-  }
-
-  return promotion;
-}
+// function findPromotion(promotions,type) {
+//   var promotion;
+//
+//   for(var i = 0; i < promotions.length; i++) {
+//     if (promotions[i].type === type) {
+//       promotion = promotions[i];
+//     }
+//   }
+//
+//   return promotion;
+// }
 
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
-
-  for(var i = 0 ; i < cartItems.length; i++) {
-    var subTotal = getSubTotal(cartItems[i]);
-    cartItemsTotalAmount += subTotal;
-  }
+  _.forEach(cartItems,function(cartItem){
+  //for(var i = 0 ; i < cartItems.length; i++) {
+    cartItemsTotalAmount += getSubTotal(cartItem);
+  });
 
   return cartItemsTotalAmount;
 }
-  
+
 function getCartItemsSaveAmount(cartItems) {
   var noSaveTotalAmount = 0;
   var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
