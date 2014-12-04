@@ -8,7 +8,7 @@ function getCartItems(tags) {
   var cartItems = [];
   var items = loadAllItems();
 
-  _.forEach(tags, function(tag){
+  _.forEach(tags, function(tag) {
 
     var tagArray  = tag.split('-');
     var barcode = tagArray[0];
@@ -19,14 +19,13 @@ function getCartItems(tags) {
     }
 
     var item = _.find(items, {barcode: barcode});
-    //var cartItem = findCartItem(cartItems,barcode);
-    var cartItem = _.find(cartItems, function(cartItem){
+    var cartItem = _.find(cartItems, function(cartItem) {
       return cartItem.item.barcode === barcode;
     });
 
     if(cartItem) {
       cartItem.count += count;
-    }else{
+    } else {
       cartItems.push({item:item , count:count});
     }
 
@@ -55,7 +54,7 @@ function getInventroyText(cartItems) {
 function getCartItemsText(cartItems) {
   var cartItemsText = '';
 
-  _.forEach(cartItems,function(cartItem){
+  _.forEach(cartItems,function(cartItem) {
     var subTotal = getSubTotal(cartItem);
         cartItemsText += '名称：' + cartItem.item.name +
                          '，数量：' + cartItem.count + cartItem.item.unit +
@@ -70,7 +69,6 @@ function getPromotionText(cartItems) {
   var promotionText = '';
 
   _.forEach(cartItems,function(cartItem) {
-  //for(var i = 0 ; i < cartItems.length; i++) {
     var subTotal = getSubTotal(cartItem);
     if (subTotal != cartItem.item.price * cartItem.count) {
       promotionText += '名称：' + cartItem.item.name + '，数量：' +
@@ -105,7 +103,7 @@ function getSubTotal(cartItem) {
 
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
-  _.forEach(cartItems,function(cartItem){
+  _.forEach(cartItems,function(cartItem) {
     cartItemsTotalAmount += getSubTotal(cartItem);
   });
 
@@ -116,7 +114,7 @@ function getCartItemsSaveAmount(cartItems) {
   var noSaveTotalAmount = 0;
   var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
 
-  _.forEach(cartItems,function(cartItem){
+  _.forEach(cartItems,function(cartItem) {
     noSaveTotalAmount += cartItem.item.price * cartItem.count;
   });
 
