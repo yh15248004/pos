@@ -103,6 +103,7 @@ function getSubTotal(cartItem) {
 
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
+  
   _.forEach(cartItems,function(cartItem) {
     cartItemsTotalAmount += getSubTotal(cartItem);
   });
