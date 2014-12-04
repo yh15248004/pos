@@ -5,7 +5,7 @@ function printInventory(tags) {
 }
 
 function getCartItems(tags) {
-  cartItems = [];
+  var cartItems = [];
   var items = loadAllItems();
 
   for(var i = 0; i < tags.length; i++) {
@@ -68,12 +68,10 @@ function findCartItem(cartItems,barcode) {
   var cartItem;
 
   for(var i = 0; i < cartItems.length; i++) {
-
     if(cartItems[i].item.barcode === barcode){
       cartItem = cartItems[i];
       break;
     }
-
   }
 
   return cartItem;
@@ -83,14 +81,12 @@ function getCartItemsText(cartItems) {
   var cartItemsText = '';
 
   for(var i = 0; i < cartItems.length; i++) {
-
     var cartItem = cartItems[i];
-    var cartItemsAmount = getCartItemsAmount(cartItem);
+    var subTotal = getSubTotal(cartItem);
         cartItemsText += '名称：' + cartItem.item.name +
                          '，数量：' + cartItem.count + cartItem.item.unit +
                          '，单价：' + cartItem.item.price.toFixed(2) +
-                         '(元)，小计：' + cartItemsAmount.toFixed(2) + '(元)\n';
-
+                         '(元)，小计：' + subTotal.toFixed(2) + '(元)\n';
   }
 
   return cartItemsText;
@@ -100,14 +96,12 @@ function getPromotionText(cartItems) {
   var promotionText = '';
 
   for(var i = 0 ; i < cartItems.length; i++) {
-
     var cartItem = cartItems[i];
-    var cartItemsAmount = getCartItemsAmount(cartItem);
-    if (cartItemsAmount != cartItem.item.price * cartItem.count) {
+    var subTotal = getSubTotal(cartItem);
+    if (subTotal != cartItem.item.price * cartItem.count) {
       promotionText += '名称：' + cartItem.item.name + '，数量：' +
       Math.floor(cartItem.count/3) + cartItem.item.unit + '\n';
     }
-
   }
 
   return promotionText;
@@ -122,31 +116,27 @@ function getSummaryText(cartItems) {
   return summaryText;
 }
 
-function getCartItemsAmount(cartItem) {
+function getSubTotal(cartItem) {
   var promotions = loadPromotions();
   var promotion = findPromotion(promotions,'BUY_TWO_GET_ONE_FREE');
-  var cartItemsAmount = cartItem.item.price * cartItem.count;
+  var subTotal = cartItem.item.price * cartItem.count;
 
   for(var i = 0; i < promotion.barcodes.length; i++) {
-
     if (cartItem.item.barcode === promotion.barcodes[i]) {
-      cartItemsAmount -= cartItem.item.price * Math.floor(cartItem.count/3);
+      subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
     }
-
   }
 
-  return cartItemsAmount;
+  return subTotal;
 }
 
 function findPromotion(promotions,type) {
   var promotion;
 
   for(var i = 0; i < promotions.length; i++) {
-
     if (promotions[i].type === type) {
       promotion = promotions[i];
     }
-
   }
 
   return promotion;
@@ -156,22 +146,20 @@ function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
 
   for(var i = 0 ; i < cartItems.length; i++) {
-    var cartItemsAmount = getCartItemsAmount(cartItems[i]);
-    cartItemsTotalAmount += cartItemsAmount;
+    var subTotal = getSubTotal(cartItems[i]);
+    cartItemsTotalAmount += subTotal;
   }
 
   return cartItemsTotalAmount;
 }
-
+  
 function getCartItemsSaveAmount(cartItems) {
-  var cartItemsSaveAmount = 0;
-  var cartItemsNoSaveTotalAmount = 0;
+  var noSaveTotalAmount = 0;
   var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
 
   for(var i = 0 ; i < cartItems.length; i++) {
-    cartItemsNoSaveTotalAmount += cartItems[i].item.price * cartItems[i].count;
+    noSaveTotalAmount += cartItems[i].item.price * cartItems[i].count;
   }
 
-  cartItemsSaveAmount = cartItemsNoSaveTotalAmount - cartItemsTotalAmount;
-  return cartItemsSaveAmount;
+  return noSaveTotalAmount - cartItemsTotalAmount;
 }
