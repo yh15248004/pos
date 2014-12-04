@@ -52,19 +52,6 @@ function getInventroyText(cartItems) {
   return inventoryText;
 }
 
-// function findCartItem(cartItems,barcode) {
-//   var cartItem;
-//
-//   for(var i = 0; i < cartItems.length; i++) {
-//     if(cartItems[i].item.barcode === barcode){
-//       cartItem = cartItems[i];
-//       break;
-//     }
-//   }
-//
-//   return cartItem;
-// }
-
 function getCartItemsText(cartItems) {
   var cartItemsText = '';
 
@@ -105,34 +92,16 @@ function getSummaryText(cartItems) {
 
 function getSubTotal(cartItem) {
   var promotions = loadPromotions();
-  //var promotion = findPromotion(promotions,'BUY_TWO_GET_ONE_FREE');
   var promotion = _.find(promotions,{type:'BUY_TWO_GET_ONE_FREE'});
   var subTotal = cartItem.item.price * cartItem.count;
 
   var isExist = _.contains(promotion.barcodes,cartItem.item.barcode);
-  // for(var i = 0; i < promotion.barcodes.length; i++) {
-  //   if (cartItem.item.barcode === promotion.barcodes[i]) {
-  //     subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
-  //   }
-  // }
   if (isExist) {
     subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
   }
 
   return subTotal;
 }
-
-// function findPromotion(promotions,type) {
-//   var promotion;
-//
-//   for(var i = 0; i < promotions.length; i++) {
-//     if (promotions[i].type === type) {
-//       promotion = promotions[i];
-//     }
-//   }
-//
-//   return promotion;
-// }
 
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
