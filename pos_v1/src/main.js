@@ -68,14 +68,13 @@ function getInventroyText(cartItems) {
 function getCartItemsText(cartItems) {
   var cartItemsText = '';
 
-  for(var i = 0; i < cartItems.length; i++) {
-    var cartItem = cartItems[i];
+  _.forEach(cartItems,function(cartItem){
     var subTotal = getSubTotal(cartItem);
         cartItemsText += '名称：' + cartItem.item.name +
                          '，数量：' + cartItem.count + cartItem.item.unit +
                          '，单价：' + cartItem.item.price.toFixed(2) +
                          '(元)，小计：' + subTotal.toFixed(2) + '(元)\n';
-  }
+  });
 
   return cartItemsText;
 }
@@ -110,10 +109,14 @@ function getSubTotal(cartItem) {
   var promotion = _.find(promotions,{type:'BUY_TWO_GET_ONE_FREE'});
   var subTotal = cartItem.item.price * cartItem.count;
 
-  for(var i = 0; i < promotion.barcodes.length; i++) {
-    if (cartItem.item.barcode === promotion.barcodes[i]) {
-      subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
-    }
+  var isExist = _.contains(promotion.barcodes,cartItem.item.barcode);
+  // for(var i = 0; i < promotion.barcodes.length; i++) {
+  //   if (cartItem.item.barcode === promotion.barcodes[i]) {
+  //     subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
+  //   }
+  // }
+  if (isExist) {
+    subTotal -= cartItem.item.price * Math.floor(cartItem.count/3);
   }
 
   return subTotal;
@@ -134,7 +137,6 @@ function getSubTotal(cartItem) {
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
   _.forEach(cartItems,function(cartItem){
-  //for(var i = 0 ; i < cartItems.length; i++) {
     cartItemsTotalAmount += getSubTotal(cartItem);
   });
 
@@ -145,9 +147,9 @@ function getCartItemsSaveAmount(cartItems) {
   var noSaveTotalAmount = 0;
   var cartItemsTotalAmount = getCartItemsTotalAmount(cartItems);
 
-  for(var i = 0 ; i < cartItems.length; i++) {
-    noSaveTotalAmount += cartItems[i].item.price * cartItems[i].count;
-  }
+  _.forEach(cartItems,function(cartItem){
+    noSaveTotalAmount += cartItem.item.price * cartItem.count;
+  });
 
   return noSaveTotalAmount - cartItemsTotalAmount;
 }
