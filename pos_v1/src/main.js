@@ -1,4 +1,4 @@
-function printInventory(tags) {
+function printInventory(tags) {  
   var cartItems = getCartItems(tags);
   var inventroyText = getInventroyText(cartItems);
   console.log(inventroyText);
@@ -103,7 +103,7 @@ function getSubTotal(cartItem) {
 
 function getCartItemsTotalAmount(cartItems) {
   var cartItemsTotalAmount = 0;
-  
+
   _.forEach(cartItems,function(cartItem) {
     cartItemsTotalAmount += getSubTotal(cartItem);
   });
