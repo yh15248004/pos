@@ -1,0 +1,20 @@
+function Inventory(cartItems) {
+  this.cartItems = cartItems;
+}
+Inventory.prototype.getInventoryText = function() {
+  var inventoryText = '';
+  var itemsDao = new CartItemsDao(this.cartItems);
+  var cartItemsText = itemsDao.getCartItemsText();
+  var promotionText = itemsDao.getPromotionText();
+  var summaryText = 'itemsDao.getSummaryText()';
+
+  inventoryText += '***<没钱赚商店>购物清单***\n' +
+  cartItemsText +
+  '----------------------\n' +
+  '挥泪赠送商品：\n' +
+  promotionText +
+  '----------------------\n' +
+  summaryText +
+  '**********************';
+  return inventoryText;
+};
