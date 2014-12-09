@@ -17,6 +17,7 @@ CartItemsDao.prototype.getCartItemsText = function() {
 
   return cartItemsText;
 };
+
 CartItemsDao.prototype.getPromotionText = function() {
   var cartItems = this.cartItems;
   var promotionText = '';
@@ -32,4 +33,37 @@ CartItemsDao.prototype.getPromotionText = function() {
   });
 
   return promotionText;
+};
+
+CartItemsDao.prototype.getSummaryText = function() {
+  var summaryText = '';
+  var cartItemsTotalAmount = this.getCartItemsTotalAmount();
+  var cartItemsSaveAmount = this.getCartItemsSaveAmount();
+  summaryText += '总计：' + cartItemsTotalAmount.toFixed(2) + '(元)\n' +
+  '节省：' + cartItemsSaveAmount.toFixed(2) + '(元)\n';
+  return summaryText;
+};
+
+CartItemsDao.prototype.getCartItemsTotalAmount = function() {
+  var cartItems = this.cartItems;
+  var cartItemsTotalAmount = 0;
+
+  _.forEach(cartItems,function(cartItem) {
+    var itemDao = new CartItemDao(cartItem);
+    cartItemsTotalAmount += itemDao.getSubTotal();
+  });
+
+  return cartItemsTotalAmount;
+};
+
+CartItemsDao.prototype.getCartItemsSaveAmount = function() {
+  var cartItems = this.cartItems;
+  var noSaveTotalAmount = 0;
+  var cartItemsTotalAmount = this.getCartItemsTotalAmount();
+
+  _.forEach(cartItems,function(cartItem) {
+    noSaveTotalAmount += cartItem.getPrice() * cartItem.getCount();
+  });
+
+  return noSaveTotalAmount - cartItemsTotalAmount;
 };
