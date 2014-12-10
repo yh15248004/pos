@@ -24,7 +24,7 @@ InputsDao.prototype.getCartItems = function() {
     if(cartItem) {
       cartItem.setCount(cartItem.getCount() + count);//cartItem.count += count;
     } else {
-      var cartItem = new CartItem(item, count);
+      cartItem = new CartItem(item, count);
       cartItems.push(cartItem);
     }
 
