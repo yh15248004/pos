@@ -7,7 +7,7 @@ Cart.prototype.getCartItemsText = function() {
 
   _.forEach(this.cartItems,function(cartItem) {
     var subTotal = cartItem.getSubTotal();
-    cartItemsText += cartItem.toInventoryText();
+    cartItemsText += cartItem.toCartItemsText();
   });
 
   return cartItemsText;
