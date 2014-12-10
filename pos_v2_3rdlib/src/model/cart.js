@@ -28,7 +28,7 @@ Cart.prototype.getSummaryText = function() {
   var cartItemsTotalAmount = this.getCartItemsTotalAmount();
   var cartItemsSaveAmount = this.getCartItemsSaveAmount();
   summaryText += '总计：' + cartItemsTotalAmount.toFixed(2) + '(元)\n' +
-  '节省：' + cartItemsSaveAmount.toFixed(2) + '(元)\n';
+                 '节省：' + cartItemsSaveAmount.toFixed(2) + '(元)\n';
   return summaryText;
 };
 

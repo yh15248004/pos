@@ -6,6 +6,7 @@ function CartItem(item, count) {
 CartItem.getLoadPromotions = function() {
   return loadPromotions();
 };
+
 CartItem.prototype.getSubTotal = function() {
   var promotions = CartItem.getLoadPromotions();
 
@@ -22,16 +23,18 @@ CartItem.prototype.getSubTotal = function() {
 
 CartItem.prototype.toCartItemsText = function() {
   return '名称：' + this.item.name +
-  '，数量：' + this.count + this.item.unit +
-  '，单价：' + this.item.price.toFixed(2) +
-  '(元)，小计：' + this.getSubTotal().toFixed(2) + '(元)\n';
+         '，数量：' + this.count + this.item.unit +
+         '，单价：' + this.item.price.toFixed(2) +
+         '(元)，小计：' + this.getSubTotal().toFixed(2) + '(元)\n';
 };
 
 CartItem.prototype.toPromotionText = function() {
+
   if (this.getSubTotal() != this.item.price * this.count) {
     return '名称：' + this.item.name + '，数量：' +
             Math.floor(this.count/3) + this.item.unit + '\n';
   }
+  
   return '';
 };
 
