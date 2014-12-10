@@ -8,17 +8,12 @@ Inventory.prototype.getInventoryText = function() {
   var promotionText = itemsDao.getPromotionText();
   var summaryText = itemsDao.getSummaryText();
 
-  var currentDate = new Date(),
-  year = currentDate.getFullYear(),
-  month = currentDate.getMonth() + 1,
-  date = currentDate.getDate(),
-  hour = currentDate.getHours(),
-  minute = currentDate.getMinutes(),
-  second = currentDate.getSeconds(),
-  formattedDateString = year + '年' + month + '月' + date + '日 ' + '0' + hour + ':' + minute + ':' + second;
+  //var currentDate = new Date(),
+  var currentTime = moment().format('YYYY年MM月DD日 hh:mm:ss');
+  //formattedDateString = year + '年' + month + '月' + date + '日 ' + '0' + hour + ':' + minute + ':' + second;
 
   inventoryText += '***<没钱赚商店>购物清单***\n' +
-  '打印时间：' + formattedDateString + '\n' +
+  '打印时间：' + currentTime + '\n' +
   '----------------------\n' +
   cartItemsText +
   '----------------------\n' +
