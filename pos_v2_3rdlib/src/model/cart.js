@@ -3,12 +3,12 @@ function Cart() {
 }
 
 Cart.prototype.addCartItem = function(newCartItem) {
-  //var barcode = newCartItem.getBarcode();
-  var barcode = newCartItem.item.barcode;
+  var barcode = newCartItem.getBarcode();
+  //var barcode = newCartItem.item.barcode;
   var count = newCartItem.count;
 
   var cartItem = _.find(this.cartItems, function(cartItem) {
-    return cartItem.item.barcode === barcode;
+    return cartItem.getBarcode() === barcode;
   });
   if(cartItem) {
     cartItem.count += count;
