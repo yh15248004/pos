@@ -1,13 +1,11 @@
-function CartItemsDao(cartItems) {
-  this.cartItems = cartItems;
+function Cart() {
+  this.cartItems = [];
 }
-CartItemsDao.prototype.getCartItemsText = function() {
-  var cartItems = this.cartItems;
+Cart.prototype.getCartItemsText = function() {
+
   var cartItemsText = '';
 
-  _.forEach(cartItems,function(cartItem) {
-
-    //var item = cartItem.getItem();
+  _.forEach(this.cartItems,function(cartItem) {
     var subTotal = cartItem.getSubTotal();
     cartItemsText += cartItem.toInventoryText();
   });
@@ -15,18 +13,17 @@ CartItemsDao.prototype.getCartItemsText = function() {
   return cartItemsText;
 };
 
-CartItemsDao.prototype.getPromotionText = function() {
-  var cartItems = this.cartItems;
+Cart.prototype.getPromotionText = function() {
   var promotionText = '';
 
-  _.forEach(cartItems,function(cartItem) {
+  _.forEach(this.cartItems,function(cartItem) {
     promotionText += cartItem.toPromotionText();
   });
 
   return promotionText;
 };
 
-CartItemsDao.prototype.getSummaryText = function() {
+Cart.prototype.getSummaryText = function() {
   var summaryText = '';
   var cartItemsTotalAmount = this.getCartItemsTotalAmount();
   var cartItemsSaveAmount = this.getCartItemsSaveAmount();
@@ -35,23 +32,21 @@ CartItemsDao.prototype.getSummaryText = function() {
   return summaryText;
 };
 
-CartItemsDao.prototype.getCartItemsTotalAmount = function() {
-  var cartItems = this.cartItems;
+Cart.prototype.getCartItemsTotalAmount = function() {
   var cartItemsTotalAmount = 0;
 
-  _.forEach(cartItems,function(cartItem) {
+  _.forEach(this.cartItems,function(cartItem) {
     cartItemsTotalAmount += cartItem.getSubTotal();
   });
 
   return cartItemsTotalAmount;
 };
 
-CartItemsDao.prototype.getCartItemsSaveAmount = function() {
-  var cartItems = this.cartItems;
+Cart.prototype.getCartItemsSaveAmount = function() {
   var noSaveTotalAmount = 0;
   var cartItemsTotalAmount = this.getCartItemsTotalAmount();
 
-  _.forEach(cartItems,function(cartItem) {
+  _.forEach(this.cartItems,function(cartItem) {
     noSaveTotalAmount += cartItem.getNoSaveTotalAmount();
   });
 
