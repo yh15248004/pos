@@ -2,10 +2,11 @@ function InputsDao(tags) {
   this.tags = tags;
 }
 InputsDao.prototype.getCartItems = function() {
+  var tags = this.tags;
   var cartItems = [];
   var items = loadAllItems();
 
-  _.forEach(this.tags, function(tag) {
+  _.forEach(tags, function(tag) {
 
     var tagArray  = tag.split('-');
     var barcode = tagArray[0];
