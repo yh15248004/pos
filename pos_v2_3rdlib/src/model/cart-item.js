@@ -7,6 +7,10 @@ CartItem.getLoadPromotions = function() {
   return loadPromotions();
 };
 
+CartItem.prototype.getBarcode = function() {
+  return this.item.barcode;
+};
+
 CartItem.prototype.getSubTotal = function() {
   var promotions = CartItem.getLoadPromotions();
 
@@ -34,13 +38,14 @@ CartItem.prototype.toPromotionText = function() {
     return '名称：' + this.item.name + '，数量：' +
             Math.floor(this.count/3) + this.item.unit + '\n';
   }
-  
+
   return '';
 };
 
 CartItem.prototype.getNoSaveTotalAmount = function() {
   return this.item.price * this.count;
 };
+
 
 CartItem.all = function() {
   return loadAllItems();

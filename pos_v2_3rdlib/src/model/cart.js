@@ -1,6 +1,24 @@
 function Cart() {
   this.cartItems = [];
 }
+
+Cart.prototype.addCartItem = function(newCartItem) {
+  //var barcode = newCartItem.getBarcode();
+  var barcode = newCartItem.item.barcode;
+  var count = newCartItem.count;
+
+  var cartItem = _.find(this.cartItems, function(cartItem) {
+    return cartItem.item.barcode === barcode;
+  });
+  if(cartItem) {
+    cartItem.count += count;
+  } else {
+    this.cartItems.push(newCartItem);
+  }
+
+  return this.cartItems;
+};
+
 Cart.prototype.getCartItemsText = function() {
 
   var cartItemsText = '';
