@@ -7,7 +7,7 @@ Inventory.prototype.getInventoryText = function() {
   var cartItemsText = itemsDao.getCartItemsText();
   var promotionText = itemsDao.getPromotionText();
   var summaryText = itemsDao.getSummaryText();
-  var currentTime = moment().format('YYYY年MM月DD日 hh:mm:ss');
+  var currentTime = moment().format('YYYY年MM月DD日 HH:mm:ss');
 
   inventoryText += '***<没钱赚商店>购物清单***\n' +
   '打印时间：' + currentTime + '\n' +
