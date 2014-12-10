@@ -8,6 +8,7 @@ Promotion.prototype.getType = function() {
 Promotion.prototype.setType = function(type) {
   this.type = type;
 };
+
 Promotion.prototype.getBarcodes = function() {
   return this.barcodes;
 };

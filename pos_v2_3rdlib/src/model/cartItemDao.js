@@ -5,6 +5,7 @@ CartItemDao.prototype.getSubTotal = function() {
   var cartItem = this.cartItem;
   var item = cartItem.getItem();
   var promotions = loadPromotions();
+  
   var promotion = _.find(promotions,{type:'BUY_TWO_GET_ONE_FREE'});
   var subTotal = item.getPrice() * cartItem.getCount();
 

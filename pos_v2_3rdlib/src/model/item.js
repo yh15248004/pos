@@ -10,18 +10,21 @@ Item.prototype.getBarcode = function() {
 Item.prototype.setBarcode = function(barcode) {
   this.barcode = barcode;
 };
+
 Item.prototype.getName = function() {
   return this.name;
 };
 Item.prototype.setName = function(name) {
   this.name = name;
 };
+
 Item.prototype.getUnit = function() {
   return this.unit;
 };
 Item.prototype.setUnit = function(unit) {
   this.unit = unit;
 };
+
 Item.prototype.getPrice = function() {
   return this.price;
 };
