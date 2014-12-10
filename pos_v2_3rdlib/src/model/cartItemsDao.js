@@ -7,11 +7,12 @@ CartItemsDao.prototype.getCartItemsText = function() {
 
   _.forEach(cartItems,function(cartItem) {
 
+    var item = cartItem.getItem();
     var itemDao = new CartItemDao(cartItem);
     var subTotal = itemDao.getSubTotal();
-    cartItemsText += '名称：' + cartItem.getName() +
-    '，数量：' + cartItem.getCount() + cartItem.getUnit() +
-    '，单价：' + cartItem.getPrice().toFixed(2) +
+    cartItemsText += '名称：' + item.getName() +
+    '，数量：' + cartItem.getCount() + item.getUnit() +
+    '，单价：' + item.getPrice().toFixed(2) +
     '(元)，小计：' + subTotal.toFixed(2) + '(元)\n';
   });
 
@@ -24,11 +25,12 @@ CartItemsDao.prototype.getPromotionText = function() {
 
   _.forEach(cartItems,function(cartItem) {
 
+    var item = cartItem.getItem();
     var itemDao = new CartItemDao(cartItem);
     var subTotal = itemDao.getSubTotal();
-    if (subTotal != cartItem.getPrice() * cartItem.getCount()) {
-      promotionText += '名称：' + cartItem.getName() + '，数量：' +
-      Math.floor(cartItem.getCount()/3) + cartItem.getUnit() + '\n';
+    if (subTotal != item.getPrice() * cartItem.getCount()) {
+      promotionText += '名称：' + item.getName() + '，数量：' +
+      Math.floor(cartItem.getCount()/3) + item.getUnit() + '\n';
     }
   });
 
@@ -62,7 +64,8 @@ CartItemsDao.prototype.getCartItemsSaveAmount = function() {
   var cartItemsTotalAmount = this.getCartItemsTotalAmount();
 
   _.forEach(cartItems,function(cartItem) {
-    noSaveTotalAmount += cartItem.getPrice() * cartItem.getCount();
+    var item = cartItem.getItem();
+    noSaveTotalAmount += item.getPrice() * cartItem.getCount();
   });
 
   return noSaveTotalAmount - cartItemsTotalAmount;

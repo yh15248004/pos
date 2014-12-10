@@ -18,7 +18,7 @@ InputsDao.prototype.getCartItems = function() {
 
     var item = _.find(items, {barcode: barcode});
     var cartItem = _.find(cartItems, function(cartItem) {
-      return cartItem.getBarcode() === barcode;
+      return cartItem.getItem().getBarcode() === barcode;
     });
 
     if(cartItem) {
