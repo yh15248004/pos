@@ -24,7 +24,6 @@ Cart.prototype.getCartItemsText = function() {
   var cartItemsText = '';
 
   _.forEach(this.cartItems,function(cartItem) {
-    var subTotal = cartItem.getSubTotal();
     cartItemsText += cartItem.toCartItemsText();
   });
 
