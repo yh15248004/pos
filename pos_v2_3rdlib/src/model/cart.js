@@ -2,18 +2,21 @@ function Cart() {
   this.cartItems = [];
 }
 
-Cart.prototype.addCartItem = function(newCartItem) {
-  var barcode = newCartItem.getBarcode();
-  //var barcode = newCartItem.item.barcode;
-  var count = newCartItem.count;
-
-  var cartItem = _.find(this.cartItems, function(cartItem) {
+Cart.prototype.findCartItem = function(barcode) {
+  return _.find(this.cartItems, function(cartItem) {
     return cartItem.getBarcode() === barcode;
   });
-  if(cartItem) {
-    cartItem.count += count;
+};
+
+Cart.prototype.addCartItem = function(cartItem) {
+  var barcode = cartItem.getBarcode();
+  var count = cartItem.count;
+
+  var existCartItem = this.findCartItem(barcode);
+  if(existCartItem) {
+    existCartItem.count += count;
   } else {
-    this.cartItems.push(newCartItem);
+    this.cartItems.push(cartItem);
   }
 
   return this.cartItems;

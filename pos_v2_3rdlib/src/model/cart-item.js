@@ -3,23 +3,19 @@ function CartItem(item, count) {
   this.count = count || 0;
 }
 
-CartItem.getLoadPromotions = function() {
-  return loadPromotions();
-};
-
 CartItem.prototype.getBarcode = function() {
   return this.item.barcode;
 };
 
 CartItem.prototype.getSubTotal = function() {
-  var promotions = CartItem.getLoadPromotions();
+  var promotions = Promotion.all();
 
-  var promotion = _.find(promotions,{type:'BUY_TWO_GET_ONE_FREE'});
+  var promotion = _.find(promotions, {type:'BUY_TWO_GET_ONE_FREE'});
   var subTotal = this.item.price * this.count;
 
-  var isExist = _.contains(promotion.barcodes,this.item.barcode);
+  var isExist = _.contains(promotion.barcodes, this.item.barcode);
   if (isExist) {
-    subTotal -= this.item.price * Math.floor(this.count/3);
+    subTotal -= this.item.price * Math.floor(this.count / 3);
   }
 
   return subTotal;
@@ -36,7 +32,7 @@ CartItem.prototype.toPromotionText = function() {
 
   if (this.getSubTotal() != this.item.price * this.count) {
     return '名称：' + this.item.name + '，数量：' +
-            Math.floor(this.count/3) + this.item.unit + '\n';
+            Math.floor(this.count / 3) + this.item.unit + '\n';
   }
 
   return '';
