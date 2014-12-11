@@ -21,7 +21,7 @@ CartItem.prototype.getSubTotal = function() {
   return subTotal;
 };
 
-CartItem.prototype.toCartItemsText = function() {
+CartItem.prototype.toCartItemText = function() {
   return '名称：' + this.item.name +
          '，数量：' + this.count + this.item.unit +
          '，单价：' + this.item.price.toFixed(2) +

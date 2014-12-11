@@ -27,7 +27,7 @@ Cart.prototype.getCartItemsText = function() {
   var cartItemsText = '';
 
   _.forEach(this.cartItems,function(cartItem) {
-    cartItemsText += cartItem.toCartItemsText();
+    cartItemsText += cartItem.toCartItemText();
   });
 
   return cartItemsText;
