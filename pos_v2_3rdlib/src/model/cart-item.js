@@ -10,7 +10,7 @@ CartItem.prototype.getBarcode = function() {
 CartItem.prototype.getSubTotal = function() {
   var promotions = Promotion.all();
 
-  var promotion = _.find(promotions, {type:'BUY_TWO_GET_ONE_FREE'});
+  var promotion = _.find(promotions, {type : 'BUY_TWO_GET_ONE_FREE'});
   var subTotal = this.item.price * this.count;
 
   var isExist = _.contains(promotion.barcodes, this.item.barcode);
