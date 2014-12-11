@@ -45,30 +45,30 @@ Cart.prototype.getPromotionText = function() {
 
 Cart.prototype.getSummaryText = function() {
   var summaryText = '';
-  var cartItemsTotalAmount = this.getCartItemsTotalAmount();
-  var cartItemsSaveAmount = this.getCartItemsSaveAmount();
-  summaryText += '总计：' + cartItemsTotalAmount.toFixed(2) + '(元)\n' +
-                 '节省：' + cartItemsSaveAmount.toFixed(2) + '(元)\n';
+  var totalAmount = this.getTotalAmount();
+  var saveAmount = this.getSaveAmount();
+  summaryText += '总计：' + totalAmount.toFixed(2) + '(元)\n' +
+                 '节省：' + saveAmount.toFixed(2) + '(元)\n';
   return summaryText;
 };
 
-Cart.prototype.getCartItemsTotalAmount = function() {
-  var cartItemsTotalAmount = 0;
+Cart.prototype.getTotalAmount = function() {
+  var totalAmount = 0;
 
   _.forEach(this.cartItems,function(cartItem) {
-    cartItemsTotalAmount += cartItem.getSubTotal();
+    totalAmount += cartItem.getSubTotal();
   });
 
-  return cartItemsTotalAmount;
+  return totalAmount;
 };
 
-Cart.prototype.getCartItemsSaveAmount = function() {
+Cart.prototype.getSaveAmount = function() {
   var noSaveTotalAmount = 0;
-  var cartItemsTotalAmount = this.getCartItemsTotalAmount();
+  var totalAmount = this.getTotalAmount();
 
   _.forEach(this.cartItems,function(cartItem) {
     noSaveTotalAmount += cartItem.getNoSaveTotalAmount();
   });
 
-  return noSaveTotalAmount - cartItemsTotalAmount;
+  return noSaveTotalAmount - totalAmount;
 };
